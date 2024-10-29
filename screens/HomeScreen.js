@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View, TextInput, SafeAreaView, Platform } from 'react-native';
+import { Button, StyleSheet, Text, View, TextInput, SafeAreaView, Platform, Alert } from 'react-native';
 import { useEffect, useState }from 'react';
 import * as SQLite from 'expo-sqlite';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -24,7 +24,7 @@ import {
     };
   }
 
-  const db = SQLite.openDatabaseSync("StarWarsApp1.db");
+  const db = SQLite.openDatabaseSync("StarWarsApp2910.db");
   return db;
 }
 
@@ -42,6 +42,31 @@ const HomeScreen = ({ navigation }) => {
 
   }
 
+  let resetApp = () => {
+    db.runSync(`delete from users`);
+    db.runSync(`delete from groups`);
+    db.runSync(`delete from groupmembers`);
+    db.runSync(`delete from preferances`);
+    
+    navigation.dispatch(
+      StackActions.replace('Splash')
+    );
+
+  }
+
+
+  let showAlertBox = () => {
+    Alert.alert(
+      'App Reset',
+      'All the data will be deleted if you reset, Do you want to continue?', // <- this part is optional, you can pass an empty string
+      [
+        {text: 'Ok', onPress: () => resetApp()},
+        {text: 'Cancel'},
+      ],
+      {cancelable: true},
+    );
+}
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.mainContainer}>
@@ -54,6 +79,9 @@ const HomeScreen = ({ navigation }) => {
             </MenuTrigger>
             <MenuOptions>
               <MenuOption onSelect={() => navigation.navigate('Profile')} text='Profile' />
+              <MenuOption onSelect={() => navigation.navigate('GroupList')} text='Groups' />
+              <MenuOption onSelect={() => navigation.navigate('Notification')} text='Notifications' />
+              <MenuOption onSelect={() => showAlertBox()} text='Reset App' />
               <MenuOption onSelect={logout} text='Logout' />
             </MenuOptions>
           </Menu>

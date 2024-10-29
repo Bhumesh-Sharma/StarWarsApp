@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View, TextInput, SafeAreaView, Platform } from 'react-native';
+import { Button, StyleSheet, Text, View, TextInput, SafeAreaView, Platform, ScrollView } from 'react-native';
 import React, { useEffect, useState }from 'react';
 import * as SQLite from 'expo-sqlite';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -17,7 +17,7 @@ function openDatabase() {
     };
   }
 
-  const db = SQLite.openDatabaseSync("StarWarsApp1.db");
+  const db = SQLite.openDatabaseSync("StarWarsApp2910.db");
   return db;
 }
 
@@ -96,26 +96,28 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.maincontainer}>
-        <Text style={styles.titleText}>StarWars App</Text>
-        <View style={styles.card}>
-          <TextInput
-            style={styles.inputBox}
-            placeholder="Email Address"
-            onChangeText={(email) => setEmail(email)}
-          />
-          <TextInput
-            style={styles.inputBox}
-            placeholder="Password"
-            onChangeText={(password) => setPassword(password)}
-          />
-          <Text style={styles.buttonStyle} onPress={login_user}>LOGIN</Text>
-          <Text style={styles.tertiaryButtonStyle}>Forgot Password</Text>
-          <View style={styles.dividerStyle}></View>
-          <Text style={{marginBottom: 15}}>You don't have your account?</Text>
-          <Text style={styles.secondaryButtonStyle} onPress={() => navigation.navigate("Registration")} >CREATE ACCOUNT</Text>
+      <ScrollView>
+        <View style={styles.maincontainer}>
+          <Text style={styles.titleText}>StarWars App</Text>
+          <View style={styles.card}>
+            <TextInput
+              style={styles.inputBox}
+              placeholder="Email Address"
+              onChangeText={(email) => setEmail(email)}
+            />
+            <TextInput
+              style={styles.inputBox}
+              placeholder="Password"
+              onChangeText={(password) => setPassword(password)}
+            />
+            <Text style={styles.buttonStyle} onPress={login_user}>LOGIN</Text>
+            <Text style={styles.tertiaryButtonStyle}>Forgot Password</Text>
+            <View style={styles.dividerStyle}></View>
+            <Text style={{marginBottom: 15}}>You don't have your account?</Text>
+            <Text style={styles.secondaryButtonStyle} onPress={() => navigation.navigate("Registration")} >CREATE ACCOUNT</Text>
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

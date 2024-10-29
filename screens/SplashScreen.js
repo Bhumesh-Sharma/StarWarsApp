@@ -16,14 +16,14 @@ function openDatabase() {
       };
     }
   
-    const db = SQLite.openDatabaseSync("StarWarsApp1.db");
+    const db = SQLite.openDatabaseSync("StarWarsApp2910.db");
     db.withTransactionSync(() => {
       db.runSync(
         `create table if not exists users (userid integer primary key not null, email text unique, firstname text
         , lastname text, password text, job text, photo text);`
       );
       db.runSync(
-        `create table if not exists groups (groupid integer primary key not null, groupname text, description text, createdby integer);`
+        `create table if not exists groups (groupid integer primary key not null, groupname text, description text, groupphoto text, createdby integer);`
       );
       db.runSync(
         `create table if not exists groupmembers (groupid integer not null,userid text, inviteaccepted integer);`

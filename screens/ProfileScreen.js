@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View, TextInput, SafeAreaView, Platform, Image } from 'react-native';
+import { Button, StyleSheet, Text, View, TextInput, SafeAreaView, Platform, Image, ScrollView } from 'react-native';
 import { useEffect, useState }from 'react';
 import * as SQLite from 'expo-sqlite';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -24,7 +24,7 @@ import {
     };
   }
 
-  const db = SQLite.openDatabaseSync("StarWarsApp1.db");
+  const db = SQLite.openDatabaseSync("StarWarsApp2910.db");
   return db;
 }
 
@@ -37,6 +37,11 @@ const ProfileScreen = ({ navigation }) => {
     let [lastname, setLastname] = useState('');
     let [job, setjob] = useState('');
     let [imageString, setimageString] = useState('');
+
+    let [height, setHeight] = useState('');
+    let [mass, setMass] = useState('');
+    let [birthyear, setBirthYear] = useState('');
+    let [gender, setGender] = useState('');
 
   let loadProfile = () => {
 
@@ -51,7 +56,29 @@ const ProfileScreen = ({ navigation }) => {
     setjob(result1.job);
     setimageString(result1.photo);
 
+
+    getDataFromApiAsync(result1.firstname);
+
   }
+
+  const getDataFromApiAsync = async (firstname) => {
+    try {
+      const response = await fetch(
+        'https://swapi.dev/api/people/?search='+firstname,
+      );
+      const json = await response.json();
+      setHeight(json.results[0].height);
+      setMass(json.results[0].mass);
+      setBirthYear(json.results[0].birth_year);
+      setGender(json.results[0].gender);
+    } catch (error) {
+      console.error(error);
+      setHeight("NA");
+      setMass("NA");
+      setBirthYear("NA");
+      setGender("NA");
+    }
+  };
 
   useEffect( () => {
     
@@ -61,38 +88,72 @@ const ProfileScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.mainContainer}>
-        <View style={styles.appBar}>
-          <Icon name='angle-left' size={28} onPress={() => navigation.dispatch(StackActions.pop())}/>
-          <Text style={styles.titleText}>Profile</Text>
-          <View></View>
+      <ScrollView>
+        <View style={styles.mainContainer}>
+          <View style={styles.appBar}>
+            <Icon name='angle-left' size={28} onPress={() => navigation.dispatch(StackActions.pop())}/>
+            <Text style={styles.titleText}>Profile</Text>
+            <View></View>
+          </View>
+          <Image style={{ marginBottom: 40, width: 100, height: 100,backgroundColor: '#fff'}} source={{uri: imageString}}/>
+          <View style={{width: "100%",marginBottom: 2, padding: 8, flexDirection: 'row', backgroundColor: '#fff'}}>
+              <Text>
+                  Email: 
+              </Text>
+              <Text>
+                  {' '+email}
+              </Text>
+          </View>
+          <View style={{width: "100%",marginBottom: 2, padding: 8, flexDirection: 'row', backgroundColor: '#fff'}}>
+              <Text>
+                  Name: 
+              </Text>
+              <Text>
+                  {' '+firstname + ' '+ lastname}
+              </Text>
+          </View>
+          <View style={{width: "100%",marginBottom: 40, padding: 8, flexDirection: 'row', backgroundColor: '#fff'}}>
+              <Text>
+                  Job: 
+              </Text>
+              <Text>
+                  {' '+job}
+              </Text>
+          </View>
+          <View style={{width: "100%",marginBottom: 2, padding: 8, flexDirection: 'row', backgroundColor: '#fff'}}>
+              <Text>
+                  Height: 
+              </Text>
+              <Text>
+                  {' '+height}
+              </Text>
+          </View>
+          <View style={{width: "100%",marginBottom: 2, padding: 8, flexDirection: 'row', backgroundColor: '#fff'}}>
+              <Text>
+                  Mass: 
+              </Text>
+              <Text>
+                  {' '+mass}
+              </Text>
+          </View>
+          <View style={{width: "100%",marginBottom: 2, padding: 8, flexDirection: 'row', backgroundColor: '#fff'}}>
+              <Text>
+                  Birthyear: 
+              </Text>
+              <Text>
+                  {' '+birthyear}
+              </Text>
+          </View>
+          <View style={{width: "100%",marginBottom: 2, padding: 8, flexDirection: 'row', backgroundColor: '#fff'}}>
+              <Text>
+                  Gender: 
+              </Text>
+              <Text>
+                  {' '+gender}
+              </Text>
+          </View>
         </View>
-        <Image style={{ marginBottom: 40, width: 100, height: 100,backgroundColor: '#fff'}} source={{uri: imageString}}/>
-        <View style={{marginBottom: 20, flexDirection: 'row'}}>
-            <Text>
-                Email: 
-            </Text>
-            <Text>
-                {' '+email}
-            </Text>
-        </View>
-        <View style={{marginBottom: 20, flexDirection: 'row'}}>
-            <Text>
-                Name: 
-            </Text>
-            <Text>
-                {' '+firstname + ' '+ lastname}
-            </Text>
-        </View>
-        <View style={{marginBottom: 20, flexDirection: 'row'}}>
-            <Text>
-                Job: 
-            </Text>
-            <Text>
-                {' '+job}
-            </Text>
-        </View>
-      </View>
+      </ScrollView>  
     </SafeAreaView>
   );
 };

@@ -4,6 +4,7 @@ import RegistrationScreen from "./screens/RegistrationScreen";
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import SplashScreen from './screens/SplashScreen';
+import AddGroupScreen from './screens/AddGroupScreen';
 import React, { useEffect, useState }from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
@@ -14,6 +15,9 @@ import {
   MenuTrigger,
  } from "react-native-popup-menu";
 import ProfileScreen from './screens/ProfileScreen';
+import GroupListScreen from './screens/GroupListScreen';
+import GroupDetailsScreen from './screens/GroupDetailsScreen';
+import NotificationScreen from './screens/NotificationScreen';
 
 const Stack = createNativeStackNavigator()
 
@@ -28,6 +32,10 @@ export default function App () {
         <Stack.Screen name="Registration" component={RegistrationScreen}/>
         <Stack.Screen name="Home" component={HomeScreen}/>
         <Stack.Screen name="Profile" component={ProfileScreen}/>
+        <Stack.Screen name="GroupList" component={GroupListScreen}/>
+        <Stack.Screen name="AddGroup" component={AddGroupScreen}/>
+        <Stack.Screen name="GroupDetails" component={GroupDetailsScreen}/>
+        <Stack.Screen name="Notification" component={NotificationScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
     </MenuProvider>
